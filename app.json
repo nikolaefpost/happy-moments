@@ -25,6 +25,18 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
+        }
+      ]
+    ],
+    "extra": {
+      "API_KEY": "AIzaSyA6Pg8vx2ODvhMZuLVGh9-k2pB7urCI68g",
+      "API_URL": "https://api.example.com"
     }
   }
 }
