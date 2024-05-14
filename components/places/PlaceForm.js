@@ -6,7 +6,6 @@ import LocationPicker from "./LocationPicker";
 import {Button} from "../ui";
 import {getAddress} from "../../util/location";
 import {Place} from "../../models/place";
-// import {GOOGLE_MAPS_API_KEY} from "@env"
 
 const PlaceForm = ({onCreatePlace}) => {
 
@@ -30,11 +29,6 @@ const PlaceForm = ({onCreatePlace}) => {
     const savePlaceHandler =  () => {
         const placeData = new Place(enteredTitle, takenImage, receivedAddress, pickLocation);
         onCreatePlace(placeData)
-
-      // Alert.alert(
-      //     'savePlaceHandler',
-      //     `lat:${pickLocation.lat}, lng:${pickLocation.lng}, address: ${receivedAddress}`
-      //     )
     }
 
     useEffect(() => {

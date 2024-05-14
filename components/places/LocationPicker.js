@@ -8,7 +8,6 @@ import {getMapPreview} from "../../util/location";
 import {useNavigation, useRoute, useIsFocused} from "@react-navigation/native";
 
 const LocationPicker = ({pickLocation, onPickLocation}) => {
-    // const [pickedLocation, setPickedLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     const navigation = useNavigation();
     const route = useRoute();
@@ -27,7 +26,6 @@ const LocationPicker = ({pickLocation, onPickLocation}) => {
         const hasPermissions = await verifyPermissions()
         if (!hasPermissions) return;
         let location = await getCurrentPositionAsync({});
-        // setPickedLocation({lat: location.coords.latitude, lng: location.coords.longitude});
         onPickLocation({lat: location.coords.latitude, lng: location.coords.longitude})
     }
     const pickOnMapHandler = () => {
@@ -42,12 +40,6 @@ const LocationPicker = ({pickLocation, onPickLocation}) => {
         }
     }, [isFocused]);
 
-    // let text = 'Waiting..';
-    // if (errorMsg) {
-    //     text = errorMsg;
-    // } else if (pickedLocation) {
-    //     text = process.env.GOOGLE_MAPS_API_KEY;
-    // }
 
     let locationPreview = pickLocation ?
         <Image

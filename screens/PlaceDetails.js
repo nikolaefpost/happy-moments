@@ -9,7 +9,6 @@ const PlaceDetails = ({route, navigation}) => {
 
     const selectedPlaceId = route.params?.id;
     const [fetchPlace, setFetchPlace] = useState({})
-    console.log(fetchPlace)
 
     const showOnMapHandler = () => {
         navigation.navigate('Map',{
