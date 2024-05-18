@@ -1,20 +1,28 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, ScrollView, Image, Alert} from "react-native";
+import {View, StyleSheet, Text, ScrollView, Image, Alert, Pressable, Modal} from "react-native";
 import {Colors} from "../constans/colors";
 import {OutlineButton} from "../components/ui";
 import {fetchPlaceDetails} from "../util/datebase";
 import * as SplashScreen from 'expo-splash-screen';
+import ImageFullScreen from "../components/modal/ImageFullScreen";
 
 const PlaceDetails = ({route, navigation}) => {
-
+    const [modalVisible, setModalVisible] = useState(false);
     const selectedPlaceId = route.params?.id;
     const [fetchPlace, setFetchPlace] = useState({})
 
     const showOnMapHandler = () => {
-        navigation.navigate('Map',{
+        navigation.navigate('Map', {
             lat: fetchPlace.lat,
             lng: fetchPlace.lng
         })
+    }
+
+    const showImageHandler = () => {
+        setModalVisible(true)
+    }
+    const hideImageHandler = () => {
+        setModalVisible(false)
     }
     useEffect(() => {
         const loadPlace = async () => {
@@ -28,7 +36,7 @@ const PlaceDetails = ({route, navigation}) => {
             } catch (error) {
                 Alert.alert('Error fetching places:', error); // Log errors
                 // Optionally, you could alert the user about the error
-            }finally {
+            } finally {
                 await SplashScreen.hideAsync();
             }
         };
@@ -41,21 +49,37 @@ const PlaceDetails = ({route, navigation}) => {
 
 
     return (
-        <ScrollView contentContainerStyle={styles.screen}>
-            <Image style={styles.image} source={{uri: fetchPlace.imageUri}}/>
-            <View style={styles.locationContainer}>
-                <View style={styles.addressContainer}>
-                    <Text style={styles.address}>{fetchPlace.address}</Text>
+        <>
+            <Modal
+                animationType="slide"
+                   transparent={true}
+                   visible={modalVisible}
+                   onRequestClose={() => {
+                       Alert.alert('Modal has been closed.');
+                       setModalVisible(!modalVisible);
+                   }}
+            >
+                <ImageFullScreen imageUri={fetchPlace.imageUri} title={fetchPlace.title} hideImageHandler={hideImageHandler}  />
+            </Modal>
+            <ScrollView contentContainerStyle={styles.screen}>
+                <Pressable style={styles.imageContainer} onPress={showImageHandler}>
+                    <Image style={styles.image} source={{uri: fetchPlace.imageUri}}/>
+                </Pressable>
+
+                <View style={styles.locationContainer}>
+                    <View style={styles.addressContainer}>
+                        <Text style={styles.address}>{fetchPlace.address}</Text>
+                    </View>
+
+                    <OutlineButton
+                        icon="map"
+                        onPress={showOnMapHandler}
+                    >View on Map</OutlineButton>
                 </View>
 
-                <OutlineButton
-                    icon="map"
-                    onPress={showOnMapHandler}
-                >View on Map</OutlineButton>
-            </View>
 
-
-        </ScrollView>
+            </ScrollView>
+        </>
     );
 };
 
@@ -66,10 +90,15 @@ const styles = StyleSheet.create({
         // flex: 1,
         alignItems: "center",
     },
-    image: {
+    imageContainer: {
         width: "100%",
         height: "35%",
         minHeight: 300,
+    },
+    image: {
+        width: "100%",
+        height: "100%",
+
     },
     locationContainer: {
         justifyContent: "center",

@@ -1,12 +1,23 @@
-import React  from 'react';
-import {Alert,  Image, View, Text, StyleSheet} from "react-native";
+import React, {useEffect, useState} from 'react';
+import {Alert, Image, View, Text, StyleSheet, useWindowDimensions} from "react-native";
 import {launchCameraAsync, useCameraPermissions, PermissionStatus} from "expo-image-picker"
 import {Colors} from "../../constans/colors";
 import {OutlineButton} from "../ui";
 
 const ImagePicker = ({takenImage, onTakeImage}) => {
-    const [cameraPermissionInformation, requestPermission] = useCameraPermissions()
-    // const [pickedImage, setPickedImage] = useState('')
+    const {height, width} = useWindowDimensions();
+    const [aspectRatio, setAspectRatio] = useState([16,9])
+    const [cameraPermissionInformation, requestPermission] = useCameraPermissions();
+
+    useEffect(() => {
+        if (width>height){
+            setAspectRatio([width, height])
+        }else {
+            setAspectRatio([height, width])
+        }
+
+    }, [height, width]);
+
 
     const verifyPermissions = async () => {
         if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
@@ -28,7 +39,7 @@ const ImagePicker = ({takenImage, onTakeImage}) => {
         if (!hasPermissions) return;
         const image = await launchCameraAsync({
             allowsEditing: true,
-            aspect: [16, 9],
+            aspect: aspectRatio,
             quality: .5,
         });
         if (!image.canceled) {

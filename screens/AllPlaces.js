@@ -9,6 +9,10 @@ const AllPlaces = () => {
     const [loadedPlaces, setLoadedPlaces] = useState([])
     const isFocused = useIsFocused();
 
+    const deleteLocalPlace = (id) => {
+        setLoadedPlaces(pre=> pre.filter(place=>place.id !== id))
+    }
+
     useEffect(() => {
         const loadPlaces = async () => {
             try {
@@ -31,7 +35,7 @@ const AllPlaces = () => {
 
 
     return (
-        <PlaceList places={loadedPlaces}/>
+        <PlaceList places={loadedPlaces} deleteLocalPlace={deleteLocalPlace}/>
     );
 };
 

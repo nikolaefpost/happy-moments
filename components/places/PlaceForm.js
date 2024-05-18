@@ -7,12 +7,13 @@ import {Button} from "../ui";
 import {getAddress} from "../../util/location";
 import {Place} from "../../models/place";
 
-const PlaceForm = ({onCreatePlace}) => {
-
-    const [enteredTitle, setEnteredTitle] = useState('');
-    const [pickLocation, setPickLocation] = useState(null);
-    const [takenImage, setTakenImage] = useState("");
-    const [receivedAddress, setReceivedAddress] = useState("");
+const PlaceForm = ({onCreatePlace, editedPlace}) => {
+    const { title, imageUri, address, lat, lng, id } = editedPlace;
+    const [enteredTitle, setEnteredTitle] = useState(title || "");
+    const [pickLocation, setPickLocation] = useState({lat: lat || null, lng: lng || null});
+    const [takenImage, setTakenImage] = useState(imageUri || "");
+    const [receivedAddress, setReceivedAddress] = useState(address || "");
+    const [updateId] = useState(id || null);
 
 
     const changeTitleHandler = (enteredText) => {
@@ -27,7 +28,7 @@ const PlaceForm = ({onCreatePlace}) => {
         setPickLocation(location)
     },[])
     const savePlaceHandler =  () => {
-        const placeData = new Place(enteredTitle, takenImage, receivedAddress, pickLocation);
+        const placeData = new Place(enteredTitle, takenImage, receivedAddress, pickLocation.lat, pickLocation.lng, updateId);
         onCreatePlace(placeData)
     }
 
@@ -43,7 +44,7 @@ const PlaceForm = ({onCreatePlace}) => {
 
 
     return (
-        <ScrollView style={styles.form}>
+        <ScrollView contentContainerStyle={styles.form}>
             <View >
                 <Text style={styles.label}>Title</Text>
                 <TextInput
@@ -63,11 +64,8 @@ export default PlaceForm;
 
 const styles = StyleSheet.create({
     form: {
-        flex: 1,
         paddingHorizontal: 24,
         paddingVertical: 12,
-        flexDirection: "column",
-        overflow: "scroll"
     },
     label: {
         fontWeight: "bold",

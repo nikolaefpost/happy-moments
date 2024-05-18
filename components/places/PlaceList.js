@@ -4,13 +4,16 @@ import PlaceItem from "./PlaceItem";
 import {Colors} from "../../constans/colors";
 import {useNavigation} from "@react-navigation/native";
 
-const PlaceList = ({places}) => {
+const PlaceList = ({places, deleteLocalPlace}) => {
     const navigator = useNavigation()
     const selectPlaceHandler = (id) => {
         navigator.navigate("PlaceDetails", {
             id
         })
     }
+
+
+
 
     if (!places || places.length === 0) {
         return (<View style={styles.fallbackContainer}>
@@ -21,7 +24,7 @@ const PlaceList = ({places}) => {
         <FlatList
             style={styles.list}
             data={places}
-            renderItem={({item}) => <PlaceItem  place={item} onSelect={selectPlaceHandler} />}
+            renderItem={({item}) => <PlaceItem  place={item} onSelect={selectPlaceHandler} deleteLocalPlace={deleteLocalPlace} />}
             keyExtractor={item => item.id}
         />
     )
@@ -31,7 +34,7 @@ export default PlaceList;
 
 const styles = StyleSheet.create({
     list: {
-        margin: 24
+        margin: 12
     },
     fallbackContainer: {
         flex: 1,

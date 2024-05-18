@@ -2,10 +2,10 @@ import React from 'react';
 import {Pressable, StyleSheet} from "react-native";
 import {Ionicons} from "@expo/vector-icons"
 
-const IconButton = ({icon, size, color, onPress}) => {
+const IconButton = ({icon, size, color, onPress, style}) => {
     return (
         <Pressable
-            style={({pressed})=>[styles.button, pressed && styles.pressed]}
+            style={({pressed})=>[style, styles.button, pressed && styles.pressed]}
             onPress={onPress}
         >
             <Ionicons name={icon} size={size} color={color}/>

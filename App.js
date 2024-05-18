@@ -7,12 +7,14 @@ import {Colors} from "./constans/colors";
 import {useEffect, useState} from "react";
 import {initializeDatabase} from "./util/datebase";
 import * as SplashScreen from 'expo-splash-screen';
+import {useWindowDimensions} from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-
+    const {height, width} = useWindowDimensions();
+    console.log("App", height, width)
     useEffect(() => {
         const initializeApp = async () => {
             try {
@@ -40,19 +42,20 @@ const App = () => {
                         component={AllPlaces}
                         options={({navigation})=>({
                             title: 'Your Favorite Places',
-                        headerRight: ({tintColor})=><IconButton
-                            icon="add"
-                            size={24}
-                            color={tintColor}
-                            onPress={()=>navigation.navigate('AddPlace')}
-                        />
+                        headerRight: ({tintColor})=>
+                            <IconButton
+                                icon="add"
+                                size={24}
+                                color={tintColor}
+                                onPress={()=>navigation.navigate('AddPlace')}
+                            />
                     })}/>
                     <Stack.Screen
                         name='AddPlace'
                         component={AddPlace}
-                        options={{
-                            title: "Add a new Place",
-                        }}
+                        // options={{
+                        //     title: "Add a new Place",
+                        // }}
                     />
                     <Stack.Screen
                     name='PlaceDetails'

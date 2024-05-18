@@ -34,14 +34,14 @@ const LocationPicker = ({pickLocation, onPickLocation}) => {
 
     useEffect(() => {
 
-        if(route.params && isFocused){
+        if(route.params?.pickedLocation && isFocused){
             const mapPickedLocation = route.params.pickedLocation;
             onPickLocation({lat: mapPickedLocation.latitude, lng: mapPickedLocation.longitude})
         }
     }, [isFocused]);
 
 
-    let locationPreview = pickLocation ?
+    let locationPreview = pickLocation.lat ?
         <Image
             style={styles.mapPreviewImage}
             source={{uri: getMapPreview(pickLocation.lat, pickLocation.lng)}}
