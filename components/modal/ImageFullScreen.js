@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet } from "react-native";
 import { GestureHandlerRootView, Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 import {IconButton} from "../ui";
@@ -56,7 +56,7 @@ const ImageFullScreen = ({ imageUri, title, hideImageHandler }) => {
         <GestureHandlerRootView style={styles.container}>
             <IconButton
                 style={styles.exit}
-                icon="arrow-back-outline"
+                icon="arrow-undo-outline"
                 size={24}
                 color={Colors.primary50}
                 onPress={hideImageHandler}

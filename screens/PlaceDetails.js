@@ -10,6 +10,7 @@ const PlaceDetails = ({route, navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const selectedPlaceId = route.params?.id;
     const [fetchPlace, setFetchPlace] = useState({})
+    console.log("PlaceDetails", fetchPlace.imageUri)
 
     const showOnMapHandler = () => {
         navigation.navigate('Map', {

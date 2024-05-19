@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, ScrollView, TextInput, StyleSheet} from "react-native";
 import {Colors} from "../../constans/colors";
-import ImagePicker from "./ImagePicker";
+import ImagesPicker from "./ImagesPicker";
 import LocationPicker from "./LocationPicker";
 import {Button} from "../ui";
 import {getAddress} from "../../util/location";
@@ -53,7 +53,7 @@ const PlaceForm = ({onCreatePlace, editedPlace}) => {
                     value={enteredTitle}
                 />
             </View>
-            <ImagePicker takenImage={takenImage} onTakeImage={takeImageHandler} />
+            <ImagesPicker takenImage={takenImage} onTakeImage={takeImageHandler} />
             <LocationPicker pickLocation={pickLocation} onPickLocation={pickLocationHandler} />
             <Button onPress={savePlaceHandler}>Add Place</Button>
         </ScrollView>

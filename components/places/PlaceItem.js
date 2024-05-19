@@ -37,17 +37,17 @@ const PlaceItem = ({place, onSelect, deleteLocalPlace}) => {
             <View style={styles.editBlock}>
                 <IconButton
                     style={styles.delete}
-                    icon="close-circle-outline"
-                    size={24}
-                    color={Colors.waring}
-                    onPress={deletePlaceHandler}
-                />
-                <IconButton
-                    style={styles.delete}
-                    icon="create-outline"
+                    iconAnt="edit"
                     size={24}
                     color={Colors.accent500}
                     onPress={editePlaceHandler}
+                />
+                <IconButton
+                    style={styles.delete}
+                    iconAnt="delete"
+                    size={24}
+                    color={Colors.waring}
+                    onPress={deletePlaceHandler}
                 />
             </View>
         </View>
@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
     },
     info: {
         flex: 2,
-        paddingLeft: 12,       // left
-        paddingRight: 30,     // right
-        paddingVertical: 12
+        paddingHorizontal: 12,
+        paddingTop: 12,
+        paddingBottom: 30
 
 
     },
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
         // right: 0,
 
     },
-
     title: {
         fontWeight: "bold",
         fontSize: 18,
@@ -109,12 +108,14 @@ const styles = StyleSheet.create({
     },
     editBlock: {
         position: "absolute",
-        top: 12,
-        bottom: 12,
-        right: -6,
+        bottom: 6,
+        right: 6,
+        left: "33%",
+        height: 44,
         // height: "100%",
-        width: 44,
-        justifyContent: "space-between",
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        gap: 20
 
     }
 })

@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Image, View, Text, StyleSheet, useWindowDimensions} from "react-native";
-import {launchCameraAsync, useCameraPermissions, PermissionStatus} from "expo-image-picker"
+import {launchCameraAsync, useCameraPermissions, PermissionStatus, launchImageLibraryAsync, MediaTypeOptions} from "expo-image-picker"
 import {Colors} from "../../constans/colors";
 import {OutlineButton} from "../ui";
 
-const ImagePicker = ({takenImage, onTakeImage}) => {
+
+const ImagesPicker = ({takenImage, onTakeImage}) => {
     const {height, width} = useWindowDimensions();
     const [aspectRatio, setAspectRatio] = useState([16,9])
     const [cameraPermissionInformation, requestPermission] = useCameraPermissions();
@@ -48,6 +49,18 @@ const ImagePicker = ({takenImage, onTakeImage}) => {
         }
     }
 
+    const selectImageHandler = async () => {
+        let image = await launchImageLibraryAsync({
+            mediaTypes: MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: aspectRatio,
+            quality: 1,
+        });
+        if (!image.canceled) {
+            onTakeImage(image.assets[0].uri);
+        }
+    }
+
     let imagePreview = takenImage ?
         <Image style={styles.image} source={{uri: takenImage}}/> : <Text>No image taken yet</Text>
 
@@ -57,12 +70,16 @@ const ImagePicker = ({takenImage, onTakeImage}) => {
             <View style={styles.imagePreview}>
                 {imagePreview}
             </View>
-            <OutlineButton icon='camera' children="Take image" onPress={takeImageHandler}/>
+            <View style={styles.buttonBlock}>
+                <OutlineButton icon='camera' children="Take image" onPress={takeImageHandler}/>
+                <OutlineButton icon='image-outline' children="Select image" onPress={selectImageHandler}/>
+            </View>
+
         </View>
     );
 };
 
-export default ImagePicker;
+export default ImagesPicker;
 
 const styles = StyleSheet.create({
     imagePreview: {
@@ -78,6 +95,10 @@ const styles = StyleSheet.create({
     image: {
         width: '100%',
         height: '100%'
+    },
+    buttonBlock: {
+        flexDirection: "row",
+        justifyContent: "space-around"
     }
 
 
