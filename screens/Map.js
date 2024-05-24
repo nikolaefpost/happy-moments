@@ -3,17 +3,20 @@ import { StyleSheet, Alert} from "react-native";
 import MapView, {Marker} from 'react-native-maps';
 import {IconButton} from "../components/ui";
 
+
 const Map = ({navigation, route}) => {
     const currentLat = route.params?.lat
     const currentLng = route.params?.lng
+    const userLat = route.params?.userLat
+    const userLng = route.params?.userLng
 
     const [selectedLocation, setSelectedLocation] = useState({
         latitude: currentLat,
         longitude: currentLng,
     })
     const region = {
-        latitude: currentLat ? currentLat : 46.97517,
-        longitude: currentLng ? currentLng : 31.99455,
+        latitude: userLat ?? currentLat ?? 46.97517,
+        longitude: userLng ?? currentLng ?? 31.99455,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     }

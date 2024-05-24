@@ -1,17 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, Image} from "react-native";
+import {View, StyleSheet, Text, Image, Alert} from "react-native";
 import {OutlineButton} from "../ui";
 import {Colors} from "../../constans/colors";
 
 import {getCurrentPositionAsync, requestForegroundPermissionsAsync, PermissionStatus} from 'expo-location';
 import {getMapPreview} from "../../util/location";
 import {useNavigation, useRoute, useIsFocused} from "@react-navigation/native";
+import * as Location from "expo-location";
 
 const LocationPicker = ({pickLocation, onPickLocation}) => {
     const [errorMsg, setErrorMsg] = useState(null);
     const navigation = useNavigation();
     const route = useRoute();
     const isFocused = useIsFocused();
+    const [userLocation, setUserLocation] = useState(null)
 
     const verifyPermissions = async () => {
         let {status} = await requestForegroundPermissionsAsync();
@@ -29,7 +31,10 @@ const LocationPicker = ({pickLocation, onPickLocation}) => {
         onPickLocation({lat: location.coords.latitude, lng: location.coords.longitude})
     }
     const pickOnMapHandler = () => {
-        navigation.navigate('Map')
+        navigation.navigate('Map',{
+            userLat: userLocation?.latitude,
+            userLng: userLocation?.longitude
+        })
     }
 
     useEffect(() => {
@@ -39,6 +44,28 @@ const LocationPicker = ({pickLocation, onPickLocation}) => {
             onPickLocation({lat: mapPickedLocation.latitude, lng: mapPickedLocation.longitude})
         }
     }, [isFocused]);
+
+    useEffect(() => {
+        (async () => {
+
+
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                Alert.alert(
+                    'Permission to access location was denied',
+                    'To ensure the application functions correctly, please grant permission to determine your location.'
+                );
+                return;
+            }
+
+            let {coords} = await Location.getCurrentPositionAsync({});
+            setUserLocation({
+                latitude: coords.latitude,
+                longitude: coords.longitude,
+            })
+            console.log("LocationPicker",coords.longitude, coords.latitude)
+        })();
+    }, []);
 
 
     let locationPreview = pickLocation.lat ?

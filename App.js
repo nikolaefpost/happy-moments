@@ -4,17 +4,16 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {AllPlaces, AddPlace, Map, PlaceDetails} from "./screens";
 import IconButton from "./components/ui/IconButton";
 import {Colors} from "./constans/colors";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {initializeDatabase} from "./util/datebase";
 import * as SplashScreen from 'expo-splash-screen';
-import {useWindowDimensions} from "react-native";
+// import {useWindowDimensions} from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-    const {height, width} = useWindowDimensions();
-    console.log("App", height, width)
+    // const {height, width} = useWindowDimensions();
     useEffect(() => {
         const initializeApp = async () => {
             try {
